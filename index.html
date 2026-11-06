@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShieldMine AI | Landmine Detection</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <a class="brand" href="#home">
+            <span class="brand-logo">⬡</span>
+            <span>
+                <strong>ShieldMine <em>AI</em></strong>
+                <small>INTELLIGENT DETECTION</small>
+            </span>
+        </a>
+
+        <p class="menu-heading">WORKSPACE</p>
+
+        <nav class="nav">
+            <a class="nav-link active" href="#home"><span>⌂</span> Home</a>
+            <a class="nav-link" href="#analysis"><span>◎</span> Image Analysis</a>
+            <a class="nav-link" href="#performance"><span>▥</span> Model Performance</a>
+            <a class="nav-link" href="#about"><span>ⓘ</span> About Project</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <p class="breadcrumb">WORKSPACE / <span>OVERVIEW</span></p>
+                <h1>Landmine Detection</h1>
+            </div>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero" id="home">
+            <div class="hero-copy">
+                <span class="eyebrow">AI-POWERED ANALYSIS PLATFORM</span>
+                <h2>Smarter Detection.<br><span>Safer Decisions.</span></h2>
+                <p>Analyze terrain imagery with an AI-assisted workflow designed to support landmine detection research.</p>
+                <a href="#analysis" class="primary-button">Start Image Analysis <span>→</span></a>
+            </div>
+
+            <div class="hero-graphic" aria-hidden="true">
+                <div class="terrain terrain-one"></div>
+                <div class="terrain terrain-two"></div>
+                <div class="radar radar-one"></div>
+                <div class="radar radar-two"></div>
+                <div class="radar radar-three"></div>
+                <div class="target">+</div>
+                <div class="radar-line"></div>
+                <span class="scan-label">TERRAIN SCAN</span>
+                <span class="scan-coordinates">FIELD ZONE · --</span>
+            </div>
+
+            <span class="hero-index">01 <small>/ 04</small></span>
+        </section>
+
+        <!-- IMAGE ANALYSIS -->
+        <section id="analysis">
+            <div class="section-heading">
+                <div>
+                    <p class="kicker">IMAGE WORKSPACE</p>
+                    <h2>Image Analysis</h2>
+                    <p class="subtext">Upload a terrain image to begin the analysis workflow.</p>
+                </div>
+                <span class="step-label">STEP 01 / UPLOAD</span>
+            </div>
+
+            <div class="analysis-grid">
+
+                <article class="panel upload-panel">
+                    <div class="panel-title">
+                        <span class="title-icon">↑</span>
+                        <div>
+                            <h3>Upload Terrain Image</h3>
+                            <p>Select an image from your device</p>
+                        </div>
+                    </div>
+
+                    <div class="drop-zone" id="dropZone">
+                        <div class="upload-icon">↑</div>
+                        <h3>Drag and drop your image</h3>
+                        <p>or click below to browse files</p>
+
+                        <label for="imageInput" class="browse-button">Browse Images</label>
+
+                        <input
+                            id="imageInput"
+                            type="file"
+                            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                            hidden
+                        >
+
+                        <small>JPG, JPEG, PNG · Maximum 10 MB</small>
+                    </div>
+
+                    <div class="file-row">
+                        <div class="file-icon">IMG</div>
+                        <div class="file-info">
+                            <strong id="fileName">No image selected</strong>
+                            <small id="fileSize">Choose an image to continue</small>
+                        </div>
+                        <button id="removeImage" class="remove-button" type="button" title="Remove image">×</button>
+                    </div>
+
+                    <div class="image-preview" id="previewWrap" hidden>
+                        <img id="imagePreview" alt="Uploaded terrain preview">
+                    </div>
+
+                    <button class="analyze-button" id="analyzeButton" type="button" disabled>
+                        Analyze Image <span>→</span>
+                    </button>
+
+                    <p class="footnote">
+                        Research prototype only. This interface cannot determine whether terrain is safe.
+                    </p>
+                </article>
+
+                <article class="panel status-panel">
+                    <div class="panel-title">
+                        <span class="title-icon">◷</span>
+                        <div>
+                            <h3>Analysis Status</h3>
+                            <p>Current workflow information</p>
+                        </div>
+                    </div>
+
+                    <div class="status-banner">
+                        <span class="dot"></span>
+                        <div>
+                            <strong id="statusTitle">Awaiting image</strong>
+                            <p id="statusMessage">Upload an image to begin.</p>
+                        </div>
+                    </div>
+
+                    <div class="progress-label">
+                        <span>Workflow progress</span>
+                        <strong id="progressValue">0%</strong>
+                    </div>
+
+                    <div class="progress-track">
+                        <div id="progressFill"></div>
+                    </div>
+
+                    <div class="workflow">
+
+                        <div class="workflow-step" id="stepUpload">
+                            <span class="step-number">1</span>
+                            <div>
+                                <strong>Image upload</strong>
+                                <p>Waiting for image</p>
+                            </div>
+                            <small>PENDING</small>
+                        </div>
+
+                        <div class="workflow-step" id="stepPreprocess">
+                            <span class="step-number">2</span>
+                            <div>
+                                <strong>Preprocessing</strong>
+                                <p>Not started</p>
+                            </div>
+                            <small>PENDING</small>
+                        </div>
+
+                        <div class="workflow-step" id="stepModel">
+                            <span class="step-number">3</span>
+                            <div>
+                                <strong>AI model inference</strong>
+                                <p>Model not connected</p>
+                            </div>
+                            <small>PENDING</small>
+                        </div>
+
+                        <div class="workflow-step" id="stepResult">
+                            <span class="step-number">4</span>
+                            <div>
+                                <strong>Result generation</strong>
+                                <p>Awaiting model output</p>
+                            </div>
+                            <small>PENDING</small>
+                        </div>
+
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- PREPROCESSING OVERVIEW -->
+        <section id="preprocessing">
+            <div class="section-heading">
+                <div>
+                    <p class="kicker">IMAGE PIPELINE</p>
+                    <h2>Preprocessing Overview</h2>
+                    <p class="subtext">Visual previews of image-processing stages.</p>
+                </div>
+            </div>
+
+            <div class="preview-grid">
+
+                <article class="panel preview-card">
+                    <div class="sample-image original">
+                        <span>01</span>
+                        <b>▧</b>
+                        <img id="pipelineOriginal" alt="Original uploaded image" hidden>
+                    </div>
+
+                    <div class="preview-card-body">
+                        <h3>Original Image</h3>
+                        <p>Input terrain imagery</p>
+                        <small id="pipelineOriginalStatus">INPUT</small>
+                    </div>
+                </article>
+
+                <article class="panel preview-card">
+                    <div class="sample-image grayscale">
+                        <span>02</span>
+                        <b>◐</b>
+                        <img id="pipelineGrayscale" alt="Grayscale preview" hidden>
+                    </div>
+
+                    <div class="preview-card-body">
+                        <h3>Grayscale</h3>
+                        <p>Intensity conversion</p>
+                        <small id="pipelineGrayscaleStatus">WAITING</small>
+                    </div>
+                </article>
+
+                <article class="panel preview-card">
+                    <div class="sample-image noise">
+                        <span>03</span>
+                        <b>▤</b>
+                        <img id="pipelineFiltered" alt="Filtered image preview" hidden>
+                    </div>
+
+                    <div class="preview-card-body">
+                        <h3>Noise Reduction</h3>
+                        <p>Median filtering preview</p>
+                        <small id="pipelineFilteredStatus">WAITING</small>
+                    </div>
+                </article>
+
+                <article class="panel preview-card">
+                    <div class="sample-image features">
+                        <span>04</span>
+                        <b>⌗</b>
+                    </div>
+
+                    <div class="preview-card-body">
+                        <h3>Feature Analysis</h3>
+                        <p id="pipelineFeatureDescription">Model-ready representation</p>
+                        <small id="pipelineFeatureStatus">WAITING</small>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- DETECTION RESULTS -->
+        <section>
+            <div class="section-heading">
+                <div>
+                    <p class="kicker">MODEL OUTPUT</p>
+                    <h2>Detection Results</h2>
+                </div>
+            </div>
+
+            <div class="results-grid">
+
+                <article class="panel result-panel">
+                    <div class="panel-title">
+                        <span class="title-icon">◎</span>
+                        <div>
+                            <h3>Detection Visualization</h3>
+                            <p>Image processed by the model</p>
+                        </div>
+                    </div>
+
+                    <div class="result-visual" id="resultVisual">
+                        <div class="result-empty">
+                            <div>⌕</div>
+                            <h3>No detection output yet</h3>
+                            <p>Upload an image to run the trained model.</p>
+                        </div>
+                    </div>
+
+                    <p class="footnote">
+                        The current CNN performs image classification and does not generate localized detection regions.
+                    </p>
+                </article>
+
+                <article class="panel prediction-panel">
+                    <p class="kicker">PREDICTION SUMMARY</p>
+                    <h3>Model Output</h3>
+
+                    <div class="prediction-status" id="predictionStatus">
+                        <span class="dot"></span>
+                        <strong>Not available</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Prediction</span>
+                        <strong id="predictionValue">—</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Confidence</span>
+                        <strong id="confidenceValue">—</strong>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Region coordinates</span>
+                        <strong id="regionValue">—</strong>
+                    </div>
+
+                    <div class="warning-box">
+                        <strong id="modelNoticeTitle">Model not connected</strong>
+                        <p id="modelNoticeText">Real predictions require a trained and tested model.</p>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- MODEL PERFORMANCE -->
+        <section id="performance">
+            <div class="section-heading">
+                <div>
+                    <p class="kicker">EVALUATION</p>
+                    <h2>Model Performance</h2>
+                    <p class="subtext">Metrics will be populated from actual test-set evaluation.</p>
+                </div>
+                <span class="step-label">TEST DATA REQUIRED</span>
+            </div>
+
+            <div class="metrics-grid">
+                <article class="panel metric-card">
+                    <p>Accuracy</p>
+                    <strong>—</strong>
+                    <small>Correct predictions / total</small>
+                </article>
+
+                <article class="panel metric-card">
+                    <p>Precision</p>
+                    <strong>—</strong>
+                    <small>True positives / predicted positives</small>
+                </article>
+
+                <article class="panel metric-card">
+                    <p>Recall</p>
+                    <strong>—</strong>
+                    <small>True positives / actual positives</small>
+                </article>
+
+                <article class="panel metric-card">
+                    <p>F1 Score</p>
+                    <strong>—</strong>
+                    <small>Harmonic mean of precision and recall</small>
+                </article>
+            </div>
+
+            <article class="panel chart-panel">
+                <div class="panel-title">
+                    <span class="title-icon">▥</span>
+                    <div>
+                        <h3>Evaluation Summary</h3>
+                        <p>Actual metric values will appear after evaluation</p>
+                    </div>
+                </div>
+
+                <div class="chart-empty">
+                    <div class="fake-bars"><i></i><i></i><i></i><i></i></div>
+                    <strong>No evaluation data available</strong>
+                    <p>Train and evaluate the model to populate this section.</p>
+                </div>
+            </article>
+        </section>
+
+    </main>
+</div>
+</body>
+</html>
