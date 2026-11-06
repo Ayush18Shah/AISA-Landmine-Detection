@@ -305,7 +305,7 @@ It must not be used as a substitute for professional explosive ordnance detectio
 
 ## 👨‍💻 Developed By
 
-**Sneha Sharma**
+**Ayush Shah**
 
 B.Tech – Computer Science and Engineering  
 Specialization: Artificial Intelligence and Data Science
